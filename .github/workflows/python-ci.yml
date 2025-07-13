@@ -11,13 +11,11 @@ jobs:
     runs-on: ubuntu-latest  # or ubuntu-20.04 for compatibility
     strategy:
       matrix:
-        python-version: ["3.10", "3.11"]  # 最新マイナー指定が安全
-    env:
-      PYTHONPATH: src
+        python-version: ["3.10", "3.11"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -r requirements.txt
-      - run: pytest --maxfail=1 -q
+      - run: pytest --import-mode=prepend --pythonpath=src --maxfail=1 -q
